@@ -10,18 +10,18 @@ To manage the traffic of the Helpline, we decided to build an **AI Integrated We
 + Major Complaints:- In this situation, the complaint will be immediately forwarded to the Higher Authorities for further investigations.
 
 ##Technologies and Tools Used:
-+For Web Apps
-  +Frontend
-    +Javascript
-    +React
-    +Tailwind CSS
-  +Backend
-    +Javascript
-    +Express 
-    +Mongoose
-    +CORS
-  +AI 
-    +Python
-    +Tensorflow/PyTorch
++ For Web Apps
+  + Frontend
+    + Javascript
+    + React
+    + Tailwind CSS
+  + Backend
+    + Javascript
+    + Express 
+    + Mongoose
+    + CORS
+  + AI 
+    + Python
+    + Tensorflow/PyTorch
     
     
