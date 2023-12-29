@@ -6,4 +6,9 @@ body {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  padding-top: 120px;
+  font-family: 'Poppins';
+}
+.navbar button{ 
+  filter: drop-shadow(0.10rem 0.10rem 0.4rem rgba(0, 0, 0, 0.5));
 }
