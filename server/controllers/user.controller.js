@@ -39,67 +39,21 @@ const registerUser = async (req, res) => {
 
   // Applying some Validation
 
-  if (!fullName) {
-    return res.status(400).json({
-      success: false,
-      message: "All Fields are required",
-    });
-  }
-  if (!email) {
-    return res.status(400).json({
-      success: false,
-      message: "All Fields are required",
-    });
-  }
-  if (!phoneNumber) {
-    return res.status(400).json({
-      success: false,
-      message: "All Fields are required",
-    });
-  }
-  if (!gender) {
-    return res.status(400).json({
-      success: false,
-      message: "All Fields are required",
-    });
-  }
-  if (!dateOfBirth) {
-    return res.status(400).json({
-      success: false,
-      message: "All Fields are required",
-    });
-  }
-  if (!address) {
-    return res.status(400).json({
-      success: false,
-      message: "All Fields are required",
-    });
-  }
-  if (!district) {
-    return res.status(400).json({
-      success: false,
-      message: "All Fields are required",
-    });
-  }
-  if (!state) {
-    return res.status(400).json({
-      success: false,
-      message: "All Fields are required",
-    });
-  }
-  if (!country) {
-    return res.status(400).json({
-      success: false,
-      message: "All Fields are required",
-    });
-  }
-  if (!pincode) {
-    return res.status(400).json({
-      success: false,
-      message: "All Fields are required",
-    });
-  }
-  if (!password) {
+  if (
+    !(
+      fullName &&
+      email &&
+      phoneNumber &&
+      gender &&
+      dateOfBirth &&
+      address &&
+      district &&
+      state &&
+      country &&
+      pincode &&
+      password
+    )
+  ) {
     return res.status(400).json({
       success: false,
       message: "All Fields are required",
@@ -208,7 +162,7 @@ const logoutUser = async (req, res) => {
     loggedInUser._id,
     {
       $set: {
-        refreshToken: '',
+        refreshToken: "",
       },
     },
     {
