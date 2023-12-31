@@ -1,7 +1,25 @@
-import mongoose from "mongoose";
 import { User } from "../models/user.model.js";
 
-const generateAccessAndRefreshToken = async (userId) => {};
+const generateAccessAndRefreshToken = async (userId) => {
+  try {
+    const loggedInUser = await User.findById(userId.toString()).select(
+      "-password -refreshToken"
+    );
+    const accessToken = await loggedInUser.generateAccessToken();
+    const refreshToken = await loggedInUser.generateRefreshToken();
+
+    loggedInUser.refreshToken = refreshToken;
+    await loggedInUser.save({ validateBeforeSave: false });
+
+    return { accessToken, refreshToken };
+  } catch (error) {
+    return res.status(400).json({
+      success: false,
+      message:
+        "Something Went Wrong while generating accessToken and refreshToken",
+    });
+  }
+};
 
 const registerUser = async (req, res) => {
   // Getting User Information from frontend
@@ -112,7 +130,7 @@ const registerUser = async (req, res) => {
     password: password,
   });
 
-  //   Removing Password Field from database
+  //   Removing Password Field so user can't see
   const createdUserDataAfterRemovingPassword = await User.findById(
     createdUser._id
   ).select("-password");
@@ -133,14 +151,7 @@ const registerUser = async (req, res) => {
 };
 
 const loginUser = async (req, res) => {
-  const { email, password, phoneNumber } = req.body;
-
-  //   if (!phoneNumber) {
-  //     return res.status(400).json({
-  //       success: false,
-  //       message: "Please Enter Phone Number",
-  //     });
-  //   }
+  const { email, password } = req.body;
   if (!email) {
     return res.status(400).json({
       success: false,
@@ -170,15 +181,54 @@ const loginUser = async (req, res) => {
     });
   }
   if (isPasswordValid) {
-    return res.status(200).json({
-      success: true,
-      message: "You are successfully Logged-In.",
-    });
+    const { accessToken, refreshToken } = await generateAccessAndRefreshToken(
+      fetchedUser._id
+    );
+
+    const options = {
+      httpOnly: true,
+      secure: true,
+    };
+
+    return res
+      .status(200)
+      .cookie("accessToken", accessToken, options)
+      .cookie("refreshToken", refreshToken, options)
+      .json({
+        success: true,
+        message: "You are successfully Logged-In.",
+      });
   }
 };
 
-const logoutUser = (req, res) => {
+const logoutUser = async (req, res) => {
+  const loggedInUser = req.user;
 
+  await User.findByIdAndUpdate(
+    loggedInUser._id,
+    {
+      $set: {
+        refreshToken: '',
+      },
+    },
+    {
+      new: true,
+    }
+  );
+
+  const option = {
+    httpOnly: true,
+    secure: true,
+  };
+
+  return res
+    .status(200)
+    .clearCookie("accessToken", option)
+    .clearCookie("refreshToken", option)
+    .json({
+      success: true,
+      message: "User Logged Out Successfully",
+    });
 };
 
 export { registerUser, loginUser, logoutUser };
