@@ -1,4 +1,5 @@
 import { User } from "../models/user.model.js";
+import JWT from "jsonwebtoken";
 
 const generateAccessAndRefreshToken = async (userId) => {
   try {
@@ -185,4 +186,96 @@ const logoutUser = async (req, res) => {
     });
 };
 
-export { registerUser, loginUser, logoutUser };
+const refreshAccessToken = async (req, res) => {
+  const incomingToken = req.cookies.refreshToken || req.body.refreshToken;
+
+  if (!incomingToken) {
+    return res.status(400).json({
+      success: false,
+      message: "Unauthorized Access",
+    });
+  }
+
+  const decodedData = JWT.verify(
+    incomingToken,
+    process.env.REFRESH_TOKEN_SECRET
+  );
+
+  const userFromDecodedData = await User.findById(decodedData._id);
+
+  if (!userFromDecodedData) {
+    return res.status(401).json({
+      success: false,
+      message: "Invaid Refresh Token",
+    });
+  }
+
+  if (incomingToken !== userFromDecodedData.refreshToken) {
+    return res.status(401).json({
+      success: false,
+      message: "Refresh Token has been expired or used",
+    });
+  }
+
+  const option = {
+    httpOnly: true,
+    secure: true,
+  };
+
+  const { accessToken, refreshToken } = await generateAccessAndRefreshToken(
+    userFromDecodedData._id
+  );
+
+  return res
+    .status(200)
+    .cookie("refreshToken", refreshToken, option)
+    .cookie("accessToken", accessToken, option)
+    .json({
+      success: true,
+      message: "Access token refreshed",
+    });
+};
+
+const changeUserPassword = async (req, res) => {
+  const { oldPassword, newPassword, confirmPassword } = req.body;
+
+  if (!(oldPassword || newPassword || confirmPassword)) {
+    return res.status(400).json({
+      success: false,
+      message: "All Fields are mandatory",
+    });
+  }
+
+  if (newPassword !== confirmPassword) {
+    return res.status(400).json({
+      success: false,
+      message: "New Password and Confirm Passwod doesn't match",
+    });
+  }
+
+  const user = await User.findById(req.user._id).select("+password");
+  const isPasswordCorrect = await user.isPasswordCorrect(oldPassword);
+
+  if (!oldPassword) {
+    return res.status(400).json({
+      success: false,
+      message: "Old Password is wrong.",
+    });
+  }
+
+  user.password = newPassword;
+  await user.save({ validateBeforeSave: false });
+
+  return res.status(200).json({
+    success: true,
+    message: "Password Changed Successfully",
+  });
+};
+
+export {
+  registerUser,
+  loginUser,
+  logoutUser,
+  refreshAccessToken,
+  changeUserPassword,
+};

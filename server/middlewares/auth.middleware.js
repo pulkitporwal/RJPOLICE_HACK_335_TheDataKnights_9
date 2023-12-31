@@ -6,8 +6,6 @@ const verifyJWT = async (req, res, next) => {
     req.cookies?.accessToken ||
     req.header("Authorization")?.replace("Bearer ", "");
 
-  console.log(token);
-
   if (!token) {
     return res.status(401).json({
       success: false,
@@ -33,5 +31,4 @@ const verifyJWT = async (req, res, next) => {
   next();
 };
 
-
-export {verifyJWT}
+export { verifyJWT };
