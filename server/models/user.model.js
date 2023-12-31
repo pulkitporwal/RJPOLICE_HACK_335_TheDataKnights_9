@@ -51,8 +51,6 @@ const userSchema = new Schema(
     pincode: {
       type: Number,
       required: [true, "Pincode is Reuired"],
-      max: 6,
-      min: 6,
     },
     password: {
       type: String,
@@ -75,8 +73,17 @@ userSchema.pre("save", async function (next) {
   next();
 });
 
-userSchema.methods.isPasswordCorrect = async function (password) {
-  return await bcrypt.compare(password, this.password);
+userSchema.methods.isPasswordCorrect = async function (pass) {
+  try {
+    const userDetails = await User.findOne({ email: this.email }).select('password');
+
+    const isCorrectPassword = await bcrypt.compare(pass, userDetails.password);
+
+    return isCorrectPassword;
+  } catch (err) {
+    console.error(err);
+    return false; 
+  }
 };
 userSchema.methods.generateAccessToken = async function () {
   return JWT.sign(
