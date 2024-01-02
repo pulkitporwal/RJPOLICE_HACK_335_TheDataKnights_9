@@ -11,7 +11,7 @@ const fileCyberbullyingComplaint = async (req, res) => {
     userNameOnThePlatform &&
     culprit &&
     description &&
-    dateAndTimeOfIncident))
+    dateAndTimeOfIncident)){}
 };
 
 export { fileCyberbullyingComplaint };

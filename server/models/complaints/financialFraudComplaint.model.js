@@ -1,7 +1,9 @@
 import mongoose, { Schema } from "mongoose";
 
 const financialFraudComplaintSchema = new mongoose.Schema(
-  {},
+  {
+    
+  },
   { timestamps: true }
 );
 

@@ -1,5 +1,5 @@
-import mongoose, { Schema } from "mongoose";
+// import mongoose, { Schema } from "mongoose";
 
-const FIRSchema = new mongoose.Schema({});
+// const FIRSchema = new mongoose.Schema({});
 
-export const FIR = mongoose.model("fir", FIRSchema);
+// export const FIR = mongoose.model("fir", FIRSchema);

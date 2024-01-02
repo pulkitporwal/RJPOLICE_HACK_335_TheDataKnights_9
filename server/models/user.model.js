@@ -6,8 +6,12 @@ const userSchema = new Schema(
   {
     fullName: {
       type: String,
-      required: [true, "Name Field is Required"],
       trim: true,
+    },
+    role:{
+      type : String,
+      enum:['Complainer','Operator','Admin'],
+      default : 'Complainer'
     },
     email: {
       type: String,
@@ -26,19 +30,16 @@ const userSchema = new Schema(
     gender: {
       type: String,
       enum: ["Male", "Female", "Other"],
-      required: [true, "Gender Field is Required"],
     },
     dateOfBirth: {
       type: Date,
-      required: [true, "Date of Birth Field is Required"],
     },
     address: {
       type: String,
       required: [true, "Address is Reuired"],
     },
-    district: {
+    address2: {
       type: String,
-      required: [true, "District is Reuired"],
     },
     state: {
       type: String,
@@ -49,8 +50,8 @@ const userSchema = new Schema(
       required: [true, "Country is Reuired"],
     },
     pincode: {
-      type: Number,
-      required: [true, "Pincode is Reuired"],
+      type: String,
+      required: [true, "Pincode is Required"],
     },
     password: {
       type: String,
