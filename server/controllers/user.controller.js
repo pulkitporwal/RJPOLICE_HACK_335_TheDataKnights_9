@@ -272,10 +272,21 @@ const changeUserPassword = async (req, res) => {
   });
 };
 
+const getCurrentUserDetails = async (req, res) => {
+  const userData = req.user;
+
+  return res.status(200).json({
+    success: true,
+    message: "User Information has been fetched Successfully",
+    userData,
+  });
+};
+
 export {
   registerUser,
   loginUser,
   logoutUser,
   refreshAccessToken,
   changeUserPassword,
+  getCurrentUserDetails,
 };

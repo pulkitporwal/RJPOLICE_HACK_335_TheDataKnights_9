@@ -1,0 +1,33 @@
+User's unique ID
+Unique complnt ID
+
+type of complaint
+
+1.Cyberbullying/harrasment tc
+platform
+culprit
+user's username on platform
+description
+screenshots
+
+2.Financial:
+amount
+platform (eg-phone pe paytm) or bank
+description
+video/screenshot
+account no
+Transaction Id / Receipt Numbe
+
+3. other:
+description (preferabbly long)
+screenshots
+
+Common:
+Status [Registered, Pending, In process, Success, Rejected]
+Date and Time of Report 
+Date and Time of Incident
+Date and Time for each status
+Officer Assigned Details
+FIR No.
+Police Station
+[Any extra details]
