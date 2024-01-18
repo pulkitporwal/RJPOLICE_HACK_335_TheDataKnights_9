@@ -11,7 +11,6 @@ const Navbar = () => {
         <div className="flex items-center justify-center gap-5">
           <img src={iccccLogo} width={"180px"} />
           <div className="flex flex-col items-start justify-center font-bold">
-<<<<<<< HEAD
             <p>
               राष्ट्रीय <span className="text-red-600">साइबर अपराध</span>{" "}
               रिपोर्टिंग पोर्टल
@@ -20,10 +19,8 @@ const Navbar = () => {
               National <span className="text-red-600">Cyber Crime</span>{" "}
               Reporting Portal
             </p>
-=======
             <p>राष्ट्रीय <span className="text-red-600">साइबर अपराध</span> रिपोर्टिंग पोर्टल</p>
             <p>National <span className="text-red-600">Cyber Crime</span> Reporting Portal</p>
->>>>>>> origin/main
           </div>
         </div>
 
@@ -54,11 +51,8 @@ const Navbar = () => {
               CONTACT US
             </Link>
           </li>
-<<<<<<< HEAD
           <Link to={"/login"}>
-=======
           <Link>
->>>>>>> origin/main
             <button className="py-3 px-4 ml-10 rounded-xl border-[2px] border-transparent transition-all ease-in hover:rounded-2xl hover:border-yellow-400 hover:bg-transparent hover:scale-90 bg-yellow-400">
               File Complaint
             </button>
