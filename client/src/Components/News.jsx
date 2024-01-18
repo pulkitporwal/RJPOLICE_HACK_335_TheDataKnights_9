@@ -10,11 +10,8 @@ const News = () => {
       <div className="flex items-start justify-between gap-5">
         {newsArticles.map((article, i) => {
           return (
-<<<<<<< HEAD
             <div key={i} className="cursor-pointer">
-=======
             <div className="cursor-pointer">
->>>>>>> origin/main
               <img src={article.thumbnail} width={"1080px"} height={"1080px"} />
               <h2 className="font-bold text-[15px] mt-2 mb-2">
                 {article.title}
